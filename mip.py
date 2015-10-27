@@ -16,6 +16,7 @@ class MipCrawler:
 		self.email_out=[]
 
 	def crawl(self):
+	
 		cmpn=self.get_company_from_link(self.starting_url)
 		self.companies.extend(cmpn.company_name)
 
@@ -25,7 +26,7 @@ class MipCrawler:
 		link=self.get_company_from_google(self.companies)
 		#link=['http://www.mediafrance.eu/']
 		self.company_link.extend(link)
-		print "*Finished google serach for company names"
+		print "*Finished google search for company names"
 		#print(self.company_link)
 		
 
@@ -59,7 +60,8 @@ class MipCrawler:
   			results = json.loads(search_results)
   			data = results['responseData']
   			hits = data['results']
-			link.append((hits[0]['url']).encode("utf-8"))
+  			for h in hits:
+				link.append((h['url']).encode("utf-8"))
 			time.sleep(35)
 		return link 
 
@@ -70,7 +72,11 @@ class MipCrawler:
 		for site in link:
 			for url in e.crawl_site('%s' %site, depth):
 				for email in e.grab_email(e.urltext(url)):
-					if not emails.has_key(email):email_link.append(email)
+					if not emails.has_key(email):
+						if('reedmidem.com' in email):
+							continue
+						else:
+							email_link.append(email)
 		return email_link
 
 	def put_email_to_file(self,email):
@@ -170,7 +176,7 @@ if __name__ == '__main__':
 	batch=0
 	for url in page_urls:
 		print "Batch:%d"%(batch+1)
-		crawler=MipCrawler('%s' %base_url+url,5)
+		crawler=MipCrawler('%s' %base_url+url,10)
 		crawler.crawl()
 		batch+=1
 
