@@ -22,7 +22,7 @@ class MipCrawler:
 		self.companies.extend(cmpn)
 
 		print "*Finished Extracting the company names from file"
-		print(self.companies)
+		#print(self.companies)
 
 		link=self.get_company_from_google(self.companies)
 		#link=['http://www.mediafrance.eu/']
