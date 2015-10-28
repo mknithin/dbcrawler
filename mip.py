@@ -7,6 +7,7 @@ import time
 import email_extractor as e #for the email extract
 from collections import defaultdict #for the email extract 
 import os.path #for output file deletion
+
 class MipCrawler:
 	def __init__(self,starting_url,depth):
 		self.starting_url=starting_url
