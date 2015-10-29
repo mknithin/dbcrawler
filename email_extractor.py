@@ -50,7 +50,7 @@ def getPage(url):
             date = date[:3]
         f.close()
         return (page, date, f.url)
-    except urllib2.URLError, detail:
+    except urllib2.URLError, detail,httplib.HTTPException, httplib.IncompleteRead:
         pass
         return (None, (0,0,0), "")
 
