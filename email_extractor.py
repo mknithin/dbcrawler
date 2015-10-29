@@ -50,7 +50,7 @@ def getPage(url):
             date = date[:3]
         f.close()
         return (page, date, f.url)
-    except urllib2.URLError, detail,httplib.HTTPException, httplib.IncompleteRead:
+    except (urllib2.URLError,httplib.IncompleteRead):
         pass
         return (None, (0,0,0), "")
 
@@ -161,7 +161,7 @@ def urltext(url):
 def crawl_site(url, limit):
     return parsePages(url, limit, 'None')
 
-'''if __name__ == '__main__':
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help = True)
     parser = argparse.ArgumentParser(description= 'Web Email Extractor')
     parser.add_argument('-l','--limit', action="store", default=100, dest= "limit", type= int, help='-l numUrlsToCrawl')
@@ -172,7 +172,7 @@ def crawl_site(url, limit):
         for email in grab_email(urltext(url)):
             if not emails.has_key(email): print email
             emails[email] += 1
-'''
+
         
 
 
