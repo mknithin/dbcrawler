@@ -109,4 +109,3 @@ if __name__ == '__main__':
 		crawler.crawl()
 		batch+=1
 		start_record+=64
-
