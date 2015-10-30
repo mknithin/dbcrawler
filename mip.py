@@ -54,7 +54,7 @@ class MipCrawler:
 		link=[]
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
-			query = urllib.urlencode({'q': cmpn})
+			query = urllib.urlencode({'q': cmpn.encode("utf-8")})
   			url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
   			search_response = urllib.urlopen(url)
   			search_results = search_response.read()
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 	base_url='http://www.my-mip.com/en/online-database/mipcom/companies/?rpp=64&startRecord='
 	batch=0
 	start_record=1
-	while start_record < 4609:
+	while start_record < 65:
 		print "Batch:%d"%(batch+1)
 		crawler=MipCrawler('%s' %base_url+str(start_record),10)
 		crawler.crawl()
