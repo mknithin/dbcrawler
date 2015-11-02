@@ -160,7 +160,7 @@ def urltext(url):
 
 def crawl_site(url, limit):
     return parsePages(url, limit, 'None')
-
+'''
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help = True)
     parser = argparse.ArgumentParser(description= 'Web Email Extractor')
@@ -173,8 +173,7 @@ if __name__ == '__main__':
             if not emails.has_key(email): print email
             emails[email] += 1
 
-        
-
+ '''   
 
 
 

@@ -21,25 +21,28 @@ class MipCrawler:
 		cmpn=self.get_company_from_file(self.input_file)
 		self.companies.extend(cmpn)
 
-		print "*Finished Extracting the company names from file"
+		print "*Loaded the company names from file"
 		#print(self.companies)
 
-		link=self.get_company_from_google(self.companies)
+		self.get_company_from_google(self.companies)
+
+
+
 		#link=['http://www.mediafrance.eu/']
-		self.company_link.extend(link)
-		print "*Finished google search for company names"
+		#self.company_link.extend(link)
+		#print "*Finished google search for company names"
 		#print(self.company_link)
 		
 
 		#to get the email from the company website 
 		#print(self.company_link)
 		
-		email=self.get_email_from_link(self.company_link,self.depth)
-		self.email_out.extend(email)
-		print "*Finished extracting emails"
+		#email=self.get_email_from_link(self.company_link,self.depth)
+		#self.email_out.extend(email)
+		#print "*Finished extracting emails"
 		#print(self.email_out)
-		self.put_email_to_file(self.email_out)
-		print "*Fininshed writing emails to file <output.txt>"
+		#self.put_email_to_file(self.email_out)
+		#print "*Fininshed writing emails to file <output.txt>"
 
 	def get_company_from_file(self,file_name):
 		compn=[]
@@ -48,7 +51,7 @@ class MipCrawler:
 		return compn
 
 	def get_company_from_google(self,company_list):
-		link=[]
+		#link=[]
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
 			query = urllib.urlencode({'q': cmpn})
@@ -61,24 +64,24 @@ class MipCrawler:
   				hits = data['results']
   				for h in hits:
   					#print h['url']	
-					link.append((h['url']).encode("utf-8"))
+					#link.append((h['url']).encode("utf-8"))
+					link=(h['url']).encode("utf-8")
+					print link
+					email=self.get_email_from_link(link,self.depth)
+					self.put_email_to_file(email)
 			else:
 				continue
-			time.sleep(35)
-		return link 
-
 	def get_email_from_link(self,link,depth):
 		email_link=[]
-		print "Starting email extraction >>>>>>"
+		print "Extracting emails >>>>>>"
 		emails = defaultdict(int)
-		for site in link:
-			for url in e.crawl_site('%s' %site, depth):
-				for email in e.grab_email(e.urltext(url)):
-					if not emails.has_key(email):
-						if('reedmidem.com' in email):
-							continue
-						else:
-							email_link.append(email)
+		for url in e.crawl_site('%s' %link, depth):
+			for email in e.grab_email(e.urltext(url)):
+				if not emails.has_key(email):
+					if('reedmidem.com' in email):
+						continue
+					else:
+						email_link.append(email)
 		return email_link
 
 	def put_email_to_file(self,email):
