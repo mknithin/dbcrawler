@@ -53,7 +53,6 @@ class MipCrawler:
 	def get_company_from_google(self,company_list):
 		#link=[]
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
-		black_list=['http://www.imdb.com','https://www.facebook.com',' http://www.youtube.com/','https://www.linkedin.com/',' https://en.wikipedia.org']
 		for cmpn in company_list:
 			print "Searching emails for : %s" %cmpn
 			query = urllib.urlencode({'q': cmpn})
@@ -68,11 +67,10 @@ class MipCrawler:
   					#print h['url']	
 					#link.append((h['url']).encode("utf-8"))
 					link=(h['url']).encode("utf-8")
-					if link in black_list:
-						continue
-					print link
-					email=self.get_email_from_link(link,self.depth)
-					self.put_email_to_file(email)
+					if  not "imdb" or "facebook" or "youtube" or "linkedin" or "wikipedia" in link:
+						print link
+						email=self.get_email_from_link(link,self.depth)
+						self.put_email_to_file(email)
 			else:
 				continue
 	def get_email_from_link(self,link,depth):
