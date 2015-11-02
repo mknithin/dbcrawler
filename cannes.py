@@ -67,7 +67,7 @@ class MipCrawler:
   					#print h['url']	
 					#link.append((h['url']).encode("utf-8"))
 					link=(h['url']).encode("utf-8")
-					if  not "imdb" or "facebook" or "youtube" or "linkedin" or "wikipedia" in link:
+					if  not "imdb" in link or "facebook" in link or "youtube" in link or "linkedin" in link or "wikipedia" in link:
 						print link
 						email=self.get_email_from_link(link,self.depth)
 						self.put_email_to_file(email)
