@@ -56,10 +56,14 @@ class MipCrawler:
   			search_response = urllib.urlopen(url)
   			search_results = search_response.read()
   			results = json.loads(search_results)
-  			data = results['responseData']
-  			hits = data['results']
-  			for h in hits:
-				link.append((h['url']).encode("utf-8"))
+  			if 	results is not None:
+  				data = results['responseData']
+  				hits = data['results']
+  				for h in hits:
+  					#print h['url']	
+					link.append((h['url']).encode("utf-8"))
+			else:
+				continue
 			time.sleep(35)
 		return link 
 
