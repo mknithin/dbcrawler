@@ -24,7 +24,8 @@ class MipCrawler:
 		print "*Finished Extracting the company names"
 		#print(self.companies)
 		
-		link=self.get_company_from_google(self.companies)
+		self.get_company_from_google(self.companies)
+		'''
 		#link=['http://www.mediafrance.eu/']
 		self.company_link.extend(link)
 		print "*Finished google search for company names"
@@ -40,6 +41,7 @@ class MipCrawler:
 		#print(self.email_out)
 		self.put_email_to_file(self.email_out)
 		print "*Fininshed writing emails to file <output.txt>"
+		'''
 	
 	def get_company_from_link(self,link):
 		start_page=requests.get(link)
@@ -54,30 +56,42 @@ class MipCrawler:
 		link=[]
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
+			print "--------------------------------------------------------"
+			print "Google Search for : %s" %cmpn
 			query = urllib.urlencode({'q': cmpn.encode("utf-8")})
   			url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
   			search_response = urllib.urlopen(url)
   			search_results = search_response.read()
   			results = json.loads(search_results)
-  			data = results['responseData']
-  			hits = data['results']
-  			link.append((hits[0]['url']).encode("utf-8"))
-  			link.append((hits[1]['url']).encode("utf-8"))
-			time.sleep(35)
-		return link 
-
+  			if 	results is not None:
+	  			data = results['responseData']
+	  			hits = data['results']
+	  			for i in range(2):
+	  				#link.append((hits[0]['url']).encode("utf-8"))
+	  				#link.append((hits[1]['url']).encode("utf-8"))
+	  				link=(hits[i]['url']).encode("utf-8")
+	  				if  "imdb"  in link or "facebook" in link or "youtube" in link or "linkedin" in link or "wikipedia" in link or "my-mip" in link:
+							continue
+	  				print link
+	  				email=self.get_email_from_link(link,self.depth)
+					self.put_email_to_file(email)
+			else:
+				continue
 	def get_email_from_link(self,link,depth):
 		email_link=[]
-		print "Starting email extraction >>>>>>"
-		emails = defaultdict(int)
-		for site in link:
-			for url in e.crawl_site('%s' %site, depth):
+		print "Extracting emails from %s" %link
+		try:
+			emails = defaultdict(int)
+			for url in e.crawl_site('%s' %link, depth):
 				for email in e.grab_email(e.urltext(url)):
 					if not emails.has_key(email):
-						if('reedmidem.com' in email):
-							continue
+						if('reedmidem.com' in email or '.png' in email or '.jpg' in email):
+								continue
 						else:
 							email_link.append(email)
+		except:
+			print "Socket connection error"
+			return None
 		return email_link
 
 	def put_email_to_file(self,email):
