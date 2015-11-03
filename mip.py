@@ -9,12 +9,13 @@ from collections import defaultdict #for the email extract
 import os.path #for output file deletion
 
 class MipCrawler:
-	def __init__(self,starting_url,depth):
+	def __init__(self,starting_url,depth,start_record):
 		self.starting_url=starting_url
 		self.depth=depth
 		self.companies=[]
 		self.company_link=[]
 		self.email_out=[]
+		self.start_record=start_record
 
 	def crawl(self):
 	
@@ -58,7 +59,7 @@ class MipCrawler:
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
 			print "--------------------------------------------------------"
-			print "Google Search for : %d.%s" %(cmpn_no,cmpn)
+			print "Google Search for : %d.%s(track:%d)" %(cmpn_no,cmpn,(self.start_record+(cmpn_no-1)))
 			query = urllib.urlencode({'q': cmpn.encode("utf-8")})
   			url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
   			search_response = urllib.urlopen(url)
@@ -120,10 +121,10 @@ if __name__ == '__main__':
 		os.remove("output.txt")
 	base_url='http://www.my-mip.com/en/online-database/mipcom/companies/?rpp=64&startRecord='
 	batch=0
-	start_record=1
+	start_record=65
 	while start_record < 4609:
 		print "Batch:%d Start_record:%d"%((batch+1),start_record)
-		crawler=MipCrawler('%s' %base_url+str(start_record),10)
+		crawler=MipCrawler('%s' %base_url+str(start_record),10,start_record)
 		crawler.crawl()
 		batch+=1
 		start_record+=64
