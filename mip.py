@@ -121,7 +121,7 @@ if __name__ == '__main__':
 		os.remove("output.txt")
 	base_url='http://www.my-mip.com/en/online-database/mipcom/companies/?rpp=64&startRecord='
 	batch=0
-	start_record=65
+	start_record=1
 	while start_record < 4609:
 		print "Batch:%d Start_record:%d"%((batch+1),start_record)
 		crawler=MipCrawler('%s' %base_url+str(start_record),10,start_record)
