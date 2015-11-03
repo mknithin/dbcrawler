@@ -54,10 +54,11 @@ class MipCrawler:
 
 	def get_company_from_google(self,company_list):
 		link=[]
+		cmpn_no=1
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
 			print "--------------------------------------------------------"
-			print "Google Search for : %s" %cmpn
+			print "Google Search for : %d.%s" %(cmpn_no,cmpn)
 			query = urllib.urlencode({'q': cmpn.encode("utf-8")})
   			url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
   			search_response = urllib.urlopen(url)
@@ -74,9 +75,11 @@ class MipCrawler:
 							continue
 	  				print link
 	  				email=self.get_email_from_link(link,self.depth)
-					self.put_email_to_file(email)
+	  				if email is not None:
+						self.put_email_to_file(email)
 			else:
 				continue
+			cmpn_no+=1
 	def get_email_from_link(self,link,depth):
 		email_link=[]
 		print "Extracting emails from %s" %link
@@ -91,7 +94,8 @@ class MipCrawler:
 							email_link.append(email)
 		except:
 			print "Socket connection error"
-			return None
+			email_link=''
+			return email_link
 		return email_link
 
 	def put_email_to_file(self,email):
