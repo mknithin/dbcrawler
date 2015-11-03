@@ -118,7 +118,7 @@ if __name__ == '__main__':
 	batch=0
 	start_record=1
 	while start_record < 4609:
-		print "Batch:%d"%(batch+1)
+		print "Batch:%d Start_record:%d"%((batch+1),start_record)
 		crawler=MipCrawler('%s' %base_url+str(start_record),10)
 		crawler.crawl()
 		batch+=1
