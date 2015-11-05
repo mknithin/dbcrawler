@@ -68,10 +68,10 @@ class MipCrawler:
   			if 	results is not None:
 	  			data = results['responseData']
 	  			hits = data['results']
-	  			for i in range(2):
+	  			for h in hits:
 	  				#link.append((hits[0]['url']).encode("utf-8"))
 	  				#link.append((hits[1]['url']).encode("utf-8"))
-	  				link=(hits[i]['url']).encode("utf-8")
+	  				link=(h['url']).encode("utf-8")
 	  				if  "imdb"  in link or "facebook" in link or "youtube" in link or "linkedin" in link or "wikipedia" in link or "my-mip" in link:
 							continue
 	  				print link
