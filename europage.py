@@ -69,16 +69,18 @@ class MipCrawler:
   			results = json.loads(search_results)
   			if 	results is not None:
 	  			data = results['responseData']
-	  			hits = data['results']
-	  			for h in hits:
-	  				#link.append((hits[0]['url']).encode("utf-8"))
-	  				#link.append((hits[1]['url']).encode("utf-8"))
-	  				link=(h['url']).encode("utf-8")
-	  				if  "imdb"  in link or "facebook" in link or "youtube" in link or "linkedin" in link or "wikipedia" in link or "my-mip" in link:
-							continue
-	  				print link
-	  				email=self.get_email_from_link(link,self.depth)
-	  				if email is not None:
+	  			if data is not None:
+		  			hits = data['results']
+		  			new_url=((hits[0]['url']).encode("utf-8"))
+		  			if ("imdb"  in new_url or "facebook" in new_url or "youtube" in new_url or "linkedin" in new_url or "wikipedia" in new_url or "europages" in new_url):
+		  				cmpn_no+=1
+		  				print 'filter out '
+						continue
+		  			link.append(new_url)
+		  			#link=(h['url']).encode("utf-8")
+		  			print link[-1]
+		  			email=self.get_email_from_link(link[-1],self.depth)
+		  			if email is not None:
 						self.put_email_to_file(set(email))
 			else:
 				continue
@@ -86,7 +88,7 @@ class MipCrawler:
 	def get_email_from_link(self,link,depth):
 		email_link=[]
 		print "Extracting emails from %s" %link
-		try:
+		try:	
 			emails = defaultdict(int)
 			for url in e.crawl_site('%s' %link, depth):
 				for email in e.grab_email(e.urltext(url)):
@@ -97,7 +99,7 @@ class MipCrawler:
 							email_link.append(email)
 		except:
 			print "Socket connection error"
-			email_link=''
+			email_link=None
 			return email_link
 		return email_link
 
