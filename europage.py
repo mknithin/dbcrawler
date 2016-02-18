@@ -61,7 +61,7 @@ class MipCrawler:
 		#loc_list=['"MCFIVA (THAILAND) CO.,LTD."','"MIR" INTERGOVERNMENTAL TV AND RADIO.']
 		for cmpn in company_list:
 			print "--------------------------------------------------------"
-			print "Google Search for : %d.%s(track:%d)" %(cmpn_no,cmpn,(self.start_record+(cmpn_no-1)))
+			print "Google Search for : %d.%s(track:%d)" %(cmpn_no,cmpn,(self.start_record))
 			query = urllib.urlencode({'q': cmpn.encode("utf-8")})
   			url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
   			search_response = urllib.urlopen(url)
@@ -75,6 +75,7 @@ class MipCrawler:
 		  			if ("imdb"  in new_url or "facebook" in new_url or "youtube" in new_url or "linkedin" in new_url or "wikipedia" in new_url or "europages" in new_url):
 		  				cmpn_no+=1
 		  				print 'filter out '
+		  				time.sleep(30)
 						continue
 		  			link.append(new_url)
 		  			#link=(h['url']).encode("utf-8")
