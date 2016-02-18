@@ -84,6 +84,7 @@ class MipCrawler:
 		  			if email is not None:
 						self.put_email_to_file(set(email))
 			else:
+				cmpn_no+=1
 				continue
 			cmpn_no+=1
 	def get_email_from_link(self,link,depth):
