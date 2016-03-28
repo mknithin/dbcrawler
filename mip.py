@@ -83,6 +83,10 @@ class MipCrawler:
 		  			email=self.get_email_from_link(link[-1],self.depth)
 		  			if email is not None:
 						self.put_email_to_file(email)
+		        else:
+		        	print "No Data Received from Google Serach !" 
+		        	cmpn_no+=1
+				    continue   	
 			else:
 				cmpn_no+=1
 				continue
