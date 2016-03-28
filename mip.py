@@ -67,21 +67,22 @@ class MipCrawler:
   			results = json.loads(search_results)
   			if 	results is not None:
 	  			data = results['responseData']
-	  			hits = data['results']
-	  			#link.append((hits[0]['url']).encode("utf-8"))
-	  			#link.append((hits[1]['url']).encode("utf-8"))
-	  			#link=(h['url']).encode("utf-8")
-	  			new_link=((hits[0]['url']).encode("utf-8"))
-	  			if ("imdb"  in new_link or "facebook" in new_link or "youtube" in new_link or "linkedin" in new_link or "wikipedia" in new_link or "my-mip" in new_link):
-					cmpn_no+=1
-		  			print 'filter out '
-		  			time.sleep(30)
-					continue
-	  			link.append(new_link)
-	  			print link[-1]
-	  			email=self.get_email_from_link(link[-1],self.depth)
-	  			if email is not None:
-					self.put_email_to_file(email)
+	  			if data is not None:
+		  			hits = data['results']
+		  			#link.append((hits[0]['url']).encode("utf-8"))
+		  			#link.append((hits[1]['url']).encode("utf-8"))
+		  			#link=(h['url']).encode("utf-8")
+		  			new_link=((hits[0]['url']).encode("utf-8"))
+		  			if ("imdb"  in new_link or "facebook" in new_link or "youtube" in new_link or "linkedin" in new_link or "wikipedia" in new_link or "my-mip" in new_link):
+						cmpn_no+=1
+			  			print 'filter out '
+			  			time.sleep(30)
+						continue
+		  			link.append(new_link)
+		  			print link[-1]
+		  			email=self.get_email_from_link(link[-1],self.depth)
+		  			if email is not None:
+						self.put_email_to_file(email)
 			else:
 				cmpn_no+=1
 				continue
