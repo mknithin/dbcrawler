@@ -86,9 +86,11 @@ class MipCrawler:
 				else:
 					print "Search Failed !"
 					cmpn_no+=1
+					time.sleep(30)
 					continue  	
 			else:
 				cmpn_no+=1
+				time.sleep(30)
 				continue
 			cmpn_no+=1
 	def get_email_from_link(self,link,depth):
